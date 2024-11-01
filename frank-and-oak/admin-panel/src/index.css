@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif !important;
+  background-color: #f3f4f7;
+}
+.border-bottom {
+  border-bottom: 1px solid #323a49;
+}
+.border-up {
+  border-top: 1px solid #323a49;
+}
+.sideNav {
+  overflow-y: scroll;
+  height: 500px;
+}
+.sideNav::-webkit-scrollbar {
+  width: 8px;
+}
+.sideNav::-webkit-scrollbar-track {
+  background-color: transparent;
+  background-clip: content-box;
+}
+.sideNav::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 20px;
+}
+.sideNav::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+.header,
+.path {
+  border-bottom: 1px solid #dbdfe6;
+}
+.path {
+  word-spacing: 2px !important;
+  line-height: 20px;
+}
+.input:focus {
+  box-shadow: 0 0 10px #d5d5f6;
+  outline: 5px solid #d5d5f6;
+}
+input.category::file-selector-button {
+  height: 40px;
+  border-radius: 5px 0px 0px 5px;
+  border: 1px solid #e1e1f4;
+  margin-right: 20px;
+  cursor: pointer;
+}
+.footer {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  height: 50px !important;
+  /* background-color: #555; */
+}
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  display: none;
+  margin: 0;
+}
+
+@tailwind utilities;
