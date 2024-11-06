@@ -5,16 +5,21 @@
 
 const { createParentCategory,
     readParentCategory,
-    updateParentCategoryStatus
+    updateParentCategoryStatus,
+    deleteParentCategory,
+    multiDeleteCategory
 } = require("./admin-panel/parentCategory");
 
 
 // color category controllres //
 const {
     createColor,
-    Viewcolor
+    Viewcolor,
+    updateColorStatus,
+    deletecolor,
+    multicolordelete
 } = require("./admin-panel/colorcontroolers");
-const { createSize, readSize, updateSizeStatus } = require("./admin-panel/sizecontrollers");
+const { createSize, readSize, updateSizeStatus, deletesize, deleteMultiSize,  } = require("./admin-panel/sizecontrollers");
 module.exports = {
     createParentCategory,
     readParentCategory,
@@ -23,5 +28,12 @@ module.exports = {
     Viewcolor,
     createSize,
     readSize,
-    updateSizeStatus
+    updateSizeStatus,
+    updateColorStatus,
+    deleteParentCategory,
+    deletesize,
+    deletecolor,
+    multiDeleteCategory,
+    multicolordelete,
+    deleteMultiSize
 }

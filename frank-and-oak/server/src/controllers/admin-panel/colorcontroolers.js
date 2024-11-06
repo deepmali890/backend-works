@@ -27,7 +27,68 @@ const Viewcolor = async (req,res)=>{
     }
 }
 
+const updateColorStatus = async (req,res)=>{
+    try{
+        const data = await Addcolor.updateOne(
+            req.params,
+            {
+                $set:{
+                    status: req.body.status
+                }
+            }
+        )
+        res.status(200).json({ message: 'success', data })
+    }
+    catch(error){
+        console.log(error)
+     
+        res.status(500).json({message:"internal server error"});
+    }
+}
+
+const deletecolor = async (req,res)=>{
+    try{
+        const data = await Addcolor.updateOne(
+            req.params,
+            {
+                $set:{
+                    deleted_at: Date.now()
+                }
+            }
+        );
+        res.status(200).json({message:"success", data});
+    }
+    catch(error){
+        console.log(error)
+     
+        res.status(500).json({message:"internal server error"});
+    }
+
+}
+
+const multicolordelete=async (req,res)=>{
+    try{
+        const data = await Addcolor.updateMany(
+            { _id: { $in: req.body.ids } },
+                {
+                    $set:{
+                        deleted_at: Date.now()
+                    }
+                }
+        )
+        res.status(200).json({ message: 'success' ,data })
+    }
+    catch(error){
+        console.log(error)
+     
+        res.status(500).json({message:"internal server error"});
+    }
+}
+
 module.exports = {
     createColor,
-    Viewcolor
+    Viewcolor,
+    updateColorStatus,
+    deletecolor,
+    multicolordelete
 }
