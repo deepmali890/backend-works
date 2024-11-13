@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdDeleteForever, MdOutlineSettingsBackupRestore } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { Tooltip } from 'react-tooltip'
 import 'react-tooltip/dist/react-tooltip.css'
 import Swal from "sweetalert2";
+import 'react-responsive-modal/styles.css';
+import { Modal } from 'react-responsive-modal';
 
 const ViewSizes = () => {
 
   const[size,setSize]= useState([])
+  const [deletedSize,setDeletedSize] = useState([])
   const [checked,setChecked] = useState([]);
   const [ifAllChecked,setIfAllChecked] = useState(false)
+  const [open, setOpen] = useState(false);
 
   const fatchSize=()=>{
     axios.get(`${process.env.REACT_APP_API_HOST}/api/admin-panel/size/read-size`)
@@ -23,7 +27,18 @@ const ViewSizes = () => {
       console.log(error);
       })
   }
-  useEffect(()=>{fatchSize()},[]);
+
+  const fatchDeletedSize=()=>{
+    axios.get(`${process.env.REACT_APP_API_HOST}/api/admin-panel/size/deleted-seizeCategory`)
+    .then((response)=>{
+      console.log(response.data.data);
+      setDeletedSize(response.data.data)
+    })
+    .catch((error)=>{
+      console.log(error);
+      })
+  }
+  useEffect(()=>{fatchSize(); fatchDeletedSize();},[]);
 
   // *** updsate status start ***  //
 
@@ -82,6 +97,7 @@ const ViewSizes = () => {
             text: "Your size has been deleted.",
             icon: "success"
           });
+          fatchDeletedSize()
         })
         .catch((error)=>{
           console.log(error);
@@ -120,6 +136,7 @@ const ViewSizes = () => {
   },[size, checked])
 
   const handleMultiDelete=()=>{
+    if(checked.length===0) return
 
     Swal.fire({
       title: "Are you sure?",
@@ -155,13 +172,89 @@ const ViewSizes = () => {
     });
   }
 
+  const handleRestoreSize = (id) => {
+    console.log("Restoring size with ID:", id); // Add this line
+    axios.put(`${process.env.REACT_APP_API_HOST}/api/admin-panel/size/restore-category/${id}`)
+      .then(() => {
+        fatchSize();
+        fatchDeletedSize();
+        setOpen(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
 
   return (
     <div className="w-[90%] bg-white mx-auto border rounded-[10px] my-[150px]">
          <Tooltip id="my-tooltip" />
-      <span className="block border-b rounded-[10px_10px_0_0] bg-[#f8f8f9] text-[#303640] h-[50px] p-[8px_16px] text-[23px] font-bold">
-        View Size
-      </span>
+      <div className="flex justify-between items-center border-b rounded-[10px_10px_0_0] bg-[#f8f8f9] text-[#303640] h-[50px] p-[8px_16px] text-[23px] font-bold">
+       <h4> View Size </h4>
+       <span className=" cursor-pointer" onClick={() => setOpen(true)}><MdDeleteForever /></span>
+      </div>
+
+
+
+      <Modal open={open} onClose={() => setOpen(false)} center>
+      <table className="w-full my-[20px]">
+          <thead>
+            <tr className="text-left border-b">
+              <th>
+              <button
+            
+            className="bg-red-400 rounded-md px-3 text-white py-1"
+            onClick={handleMultiDelete}
+            >Delete</button>
+                <input
+                  type="checkbox"
+                  name="deleteAll"
+                  onClick={handleAllChecked}
+                  checked={ifAllChecked}
+                  className="m-[0_10px] accent-[#5351c9] cursor-pointer input"
+                />
+              </th>
+              <th>Sno</th>
+              <th>Size Name</th>
+              <th>Size Order</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+        {
+          deletedSize.map((item,index)=>(
+            <tr className="border-b" key={index}>
+            <td>
+              <input
+                type="checkbox"
+                name="delete"
+                value={item._id}
+                onClick={handleCheck}
+                className="accent-[#5351c9] cursor-pointer input"
+                checked={checked.includes((item._id))}
+              />
+            </td>
+            <td>{index+1}</td>
+            <td>{item.name}</td>
+            <td>{item.ordar}</td>
+            <td className="flex gap-[5px]">
+
+              <MdDelete onClick={()=>{handlesizedelete(item._id)}} className="my-[5px] text-red-500 cursor-pointer" /> |{" "}
+           
+              <MdOutlineSettingsBackupRestore onClick={()=>{handleRestoreSize(item._id)}} className="my-[5px] text-yellow-500 cursor-pointer inline" />
+           
+            </td>
+          
+          </tr>
+          ))
+        }
+            
+           
+          </tbody>
+        </table>
+      </Modal>
+
+
       <div className="w-[90%] mx-auto">
         <table className="w-full my-[20px]">
           <thead>
@@ -207,9 +300,9 @@ const ViewSizes = () => {
             <td className="flex gap-[5px]">
 
               <MdDelete onClick={()=>{handlesizedelete(item._id)}} className="my-[5px] text-red-500 cursor-pointer" /> |{" "}
-              <Link to="/dashboard/sizes/update-size">
-                <CiEdit className="my-[5px] text-yellow-500 cursor-pointer" />
-              </Link>
+              <Link to={`/dashboard/sizes/update-size/${item._id}`}>
+  <CiEdit className="my-[5px] text-yellow-500 cursor-pointer" />
+</Link>
             </td>
             <td>
               <button

@@ -1,6 +1,13 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const UpdateColor = () => {
+
+  const [color,setColor]= useState({})
+  const nav =useNavigate()
+
   const setImage = () => {
     let imageFileInput = document.querySelector("#image_src");
     let imagePreview = document.querySelector("#image_preview");
@@ -33,6 +40,58 @@ const UpdateColor = () => {
     });
   };
 
+  const {_id}= useParams();
+
+  useEffect(()=>{
+    console.log(_id)
+    axios.get(`${process.env.REACT_APP_API_HOST}/api/admin-panel/color/read-cat/${_id}`)
+    .then((response)=>{
+      console.log(response.data.data);
+      setColor(response.data.data)
+     
+    })
+    .catch((error)=>{
+      console.log(error);
+      })
+  },[_id])
+
+  const handleUpdateCategory= ()=>{
+    axios.put(`${process.env.REACT_APP_API_HOST}/api/admin-panel/color/update-cat/${_id}`,
+      {
+        name:color.name,
+        code:color.code
+      }
+    )
+    .then((response)=>{
+      console.log(response.data.data);
+      setColor(response.data.data)
+           
+      let timerInterval;
+Swal.fire({
+  title: "Category added",
+  html: "You're are redirecting to view page <b></b> milliseconds.",
+  timer: 700,
+  timerProgressBar: true,
+  didOpen: () => {
+    Swal.showLoading();
+    const timer = Swal.getPopup().querySelector("b");
+    timerInterval = setInterval(() => {
+      timer.textContent = `${Swal.getTimerLeft()}`;
+    }, 100);
+  },
+  willClose: () => {
+    clearInterval(timerInterval);
+  }
+}).then((result) => {
+  nav('/dashboard/color/view-colors')
+});
+     
+    })
+    .catch((error)=>{
+      console.log(error);
+      })
+  }
+
   return (
     <div className="w-[90%] bg-white mx-auto rounded-[10px] border my-[150px]">
       <div className="bg-[#f8f8f9] h-[50px] header w-full p-[12px] rounded-[10px_10px_0_0]">
@@ -44,6 +103,8 @@ const UpdateColor = () => {
           type="text"
           name="color"
           id="color"
+          value={color.name}
+          onChange={(e)=>{setColor({...color, name:e.target.value})}}
           className="w-full p-[10px] focus:outline-none border my-[10px] rounded-[5px]"
           placeholder="Color Name"
         />
@@ -52,6 +113,9 @@ const UpdateColor = () => {
           type="text"
           name="color_code"
           id="color_code"
+          value={color.code}
+          onChange={(e)=>{setColor({...color, code:e.target.value})}}
+          
           className="w-full p-[10px] focus:outline-none border my-[10px] rounded-[5px]"
           placeholder="Color Code"
         />
@@ -87,9 +151,9 @@ const UpdateColor = () => {
             Pick Color
           </span>
         </div>
-        {/* <button className="bg-[#5351C9] text-white rounded-[5px]  w-[120px] h-[40px]">
-              Select Color
-            </button> */}
+        <button type="button" onClick={handleUpdateCategory} className="bg-[#5351C9] text-white rounded-[5px]  w-[120px] h-[40px]">
+              Update color
+            </button>
       </div>
     </div>
   );

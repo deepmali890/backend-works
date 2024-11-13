@@ -1,8 +1,90 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const AddPCategory = () => {
+  const nav = useNavigate();
+
+  const [parentCategory, setParentCategory]= useState([]);
+  const [preview,setPreview] = useState('')
+  const fatchCategory = () => {
+    axios.get(`${process.env.REACT_APP_API_HOST}/api/admin-panel/parent-category/active-category`)
+      .then((response) => {
+        console.log(response.data);
+        setParentCategory(response.data.data)
+
+       
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  };
+
+  useEffect(()=>{fatchCategory()},[])
   
+
+  const handleAddCategory=(e)=>{
+    e.preventDefault();
+
+    if(e.target.parent_category.value === 'default'){
+      Swal.fire({
+        title: "Parent Category",
+        text: "please select parent category",
+        icon: "info"
+      });
+
+      return;
+    }
+
+    
+
+    axios.post(`${process.env.REACT_APP_API_HOST}/api/admin-panel/product-category/create-category`, e.target)
+    .then((response)=>{
+      console.log(response)
+
+      let timerInterval;
+      Swal.fire({
+        title: "Category added",
+        html: "You're are redirecting to view page <b></b> milliseconds.",
+        timer: 700,
+        timerProgressBar: true,
+        didOpen: () => {
+          Swal.showLoading();
+          const timer = Swal.getPopup().querySelector("b");
+          timerInterval = setInterval(() => {
+            timer.textContent = `${Swal.getTimerLeft()}`;
+          }, 100);
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        }
+      }).then((result) => {
+        nav('/dashboard/products/view-category')
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+    
+    })
+  }
+
+  const handleImgPreview=(e)=>{
+
+    const file = e.target.files[0]
+
+    const reader = new FileReader;
+
+    reader.readAsDataURL(file)
+
+    reader.onload = ()=>{
+      setPreview(reader.result)
+
+    }
+
+    console.log(reader)
+
+  }
 
   return (
     <div className="w-[90%] mx-auto my-[150px] bg-white border rounded-[10px]">
@@ -10,7 +92,7 @@ const AddPCategory = () => {
         Add Category
       </span>
       <div className="w-[90%] mx-auto my-[20px]">
-        <form method="post" >
+        <form method="post" onSubmit={handleAddCategory} >
           <div className="w-full my-[10px]">
             <label htmlFor="categoryName" className="block text-[#303640]">
               Category Name
@@ -23,6 +105,19 @@ const AddPCategory = () => {
               className="input border p-1 w-full rounded-[5px] my-[10px]"
             />
           </div>
+
+          <div className="w-full my-[10px]">
+            <label htmlFor="slug" className="block text-[#303640]">
+              Category slug
+            </label>
+            <input
+              type="text"
+              name="slug"
+              id="slug"
+              placeholder="Category Slug"
+              className="input border p-1 w-full rounded-[5px] my-[10px]"
+            />
+          </div>
           <div className="w-full my-[10px]">
             <label htmlFor="categoryImg" className="block text-[#303640]">
               Category Image
@@ -32,17 +127,26 @@ const AddPCategory = () => {
               name="thumbnail"
               id="categoryImg"
               className="input border w-full rounded-[5px] my-[10px] category"
+              onChange={handleImgPreview}
             />
+
+            {
+              (!preview) ? (''):(
+                <img src={preview} alt="" className="w-[150px]" />
+              )
+            }
           </div>
           <div className="w-full my-[10px]">
             <label htmlFor="categoryImg" className="block text-[#303640]">
               Parent Category
             </label>
-            <select name="parent_category" id="" className="border w-full rounded-[5px] my-[10px] category input">
-             
-              <option>men</option>
-              <option>women</option>
-              <option>kids</option>
+            <select name="parent_category" id="" className="border w-full rounded-[5px] py-2 ps-2 my-[10px] category input">
+            <option value="default"> -- select Parent category --</option>
+           {
+            parentCategory.map((parentCategory)=>(
+              <option value={parentCategory._id}>{parentCategory.name}</option>
+            ))
+           }
             </select>
           </div>
           <div className="w-full my-[10px]">
@@ -67,7 +171,7 @@ const AddPCategory = () => {
               type="radio"
               name="status"
               id="categoryStatus"
-              
+              value={true}
               className="input my-[10px] mx-[10px] accent-[#5351c9] cursor-pointer"
             />
             <span>Display</span>
@@ -75,14 +179,14 @@ const AddPCategory = () => {
               type="radio"
               name="status"
               id="categoryStatus"
-              
+              value={false}
               className="input my-[10px] mx-[10px] accent-[#5351c9] cursor-pointer"
             />
             <span>Hide</span>
           </div>
           <div className="w-full my-[20px] ">
-            <button type="submit" className="bg-[#5351c9] rounded-md text-white w-[100px] h-[35px]">
-              Add Size
+            <button type="submit" className="bg-[#5351c9] rounded-md text-white px-3 h-[35px]">
+              Add category
             </button>
           </div>
         </form>

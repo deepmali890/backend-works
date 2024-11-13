@@ -1,15 +1,21 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdDeleteForever, MdOutlineSettingsBackupRestore } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { Tooltip } from "react-tooltip";
 import Swal from "sweetalert2";
+import 'react-responsive-modal/styles.css';
+import { Modal } from 'react-responsive-modal';
 
 const ViewColor = () => {
   const[color,setColor]= useState([])
+  const [deletedColor, setDeletedColor] = useState([])
   const [checked,setChecked] = useState([]);
   const [ifAllChecked,setIfAllChecked] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [checkedRestore,setCheckedRestore] = useState([]);
+  const [ifAllCheckedRestore,setIfAllCheckedRestore] = useState(false);
 
   const fatchColor = ()=>{
     axios.get(`${process.env.REACT_APP_API_HOST}/api/admin-panel/color/viewColor`)
@@ -22,7 +28,19 @@ const ViewColor = () => {
       console.log(error);
       })
   };
-  useEffect(()=>{fatchColor()},[]);
+
+  const fatchDeletedColor = ()=>{
+    axios.get(`${process.env.REACT_APP_API_HOST}/api/admin-panel/color/deleted-colorCategory`)
+    .then((response)=>{
+      console.log(response.data.data);
+      setDeletedColor(response.data.data)
+     
+    })
+    .catch((error)=>{
+      console.log(error);
+      })
+  };
+  useEffect(()=>{fatchColor(); fatchDeletedColor()},[]);
 
   const handleupdatestatus=(e)=>{
     console.log(e.target.value,e.target.textContent ) 
@@ -80,6 +98,7 @@ const ViewColor = () => {
           text: "Your file has been deleted.",
           icon: "success"
         });
+        fatchDeletedColor()
          
        })
        .catch((error)=>{
@@ -118,9 +137,11 @@ const ViewColor = () => {
 
   useEffect(()=>{
     setIfAllChecked(color.length === checked.length && color.length !== 0)
-  },[color, checked])
+    setIfAllCheckedRestore(deletedColor.length === checkedRestore.length && deletedColor.length !== 0)
+  },[color, checked, checkedRestore ])
 
   const handleMultiDelete = ()=>{
+    if(checked.length===0) return
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -156,12 +177,122 @@ const ViewColor = () => {
     });
   }
 
+  
+  const handleCheckRestore=(e)=>{
+    console.log(e.target.checked)
+    if(e.target.checked){
+      setCheckedRestore([...checkedRestore, e.target.value])
+    }else{
+      setCheckedRestore((pre)=>(
+        pre.filter((item)=> item !== e.target.value)
+      ))
+    }
+   
+  }
+
+  const handleAllCheckRestore=(e)=>{
+    setIfAllCheckedRestore(e.target.checked)
+
+    // console.log(e.target.checked)
+    if(e.target.checked){
+      setCheckedRestore(deletedColor.map((item)=> item._id))
+    }
+    else{
+      setCheckedRestore([])
+    }
+
+  }
+
+ const handleRestoreColor=(id)=>{
+  axios.put(`${process.env.REACT_APP_API_HOST}/api/admin-panel/color/restore-color/${id}`)
+  .then(()=>{
+    fatchColor()
+    fatchDeletedColor()
+  })
+  .catch((error)=>{
+    console.log(error)
+    })
+
+ }
+
   return (
     <div className="w-[90%] bg-white rounded-[10px] border mx-auto my-[150px]">
        <Tooltip id="my-tooltip" />
-      <span className="block h-[40px] border-b rounded-[10px_10px_0_0] bg-[#f8f8f9] text-[#303640] p-[8px_16px] text-[20px]">
-        View Color
-      </span>
+      <div className="flex justify-between items-center h-[40px] border-b rounded-[10px_10px_0_0] bg-[#f8f8f9] text-[#303640] p-[8px_16px] text-[20px]">
+       <h4>View Color</h4>
+       <span className=" cursor-pointer" onClick={() => setOpen(true)}><MdDeleteForever /></span>
+      </div>
+
+
+      <Modal open={open} onClose={() => setOpen(false)} center>
+      <table className="w-full">
+          <thead>
+            <tr className="border-b text-left">
+              <th className="flex p-2">
+                <button className="bg-[#5351c9] font-light text-white rounded-md p-1 w-[80px] h-[35px] my-[10px] mr-[10px]"
+                onClick={handleMultiDelete}
+                >
+                 
+                  Delete
+                </button>
+                <input
+                  type="checkbox"
+                  name="deleteAll"
+                  className="cursor-pointer accent-[#5351c9] input"
+                  onClick={handleAllCheckRestore}
+                  checked={ifAllCheckedRestore}
+                />
+              </th>
+              <th className="p-2">Sno.</th>
+              <th className="p-2">Color Name</th>
+              <th className="p-2">Color</th>
+              <th className="p-2">Action</th>
+    
+            </tr>
+          </thead>
+          <tbody>
+            {
+              deletedColor.map((colors,index)=>{
+                
+                return(
+                <>
+                <tr className="border-b" key={index}>
+                <td className="p-2">
+                  <input
+                    type="checkbox"
+                    value={colors._id}
+                    name="delete"
+                    onClick={handleCheckRestore}
+                    checked={checkedRestore.includes(colors._id)}
+                    className="cursor-pointer accent-[#5351c9] input"
+                  />
+                </td>
+                <td className="p-2">{index+1}</td>
+                <td className="p-2">{colors.name}</td>
+                <td className="p-2">
+                  <div className={`w-[90%] mx-auto h-[20px]`} style={{
+                    backgroundColor:colors.code
+                  }}>{}</div>
+                </td>
+                <td className="p-2">
+                  <MdDelete  onClick={()=>{handlecolordelete(colors._id)}} className="my-[5px] text-red-500 cursor-pointer inline" />{" "}
+                  |{" "}
+                                  
+                  <MdOutlineSettingsBackupRestore onClick={()=>{handleRestoreColor(colors._id)}} className="my-[5px] text-yellow-500 cursor-pointer inline" />
+                </td>
+            
+              </tr>
+              </>
+              )
+})
+            }
+         
+           
+          </tbody>
+        </table>
+      </Modal>
+
+
       <div className="w-[90%] mx-auto my-[20px]">
         <table className="w-full">
           <thead>
@@ -215,7 +346,8 @@ const ViewColor = () => {
                 <td className="p-2">
                   <MdDelete  onClick={()=>{handlecolordelete(colors._id)}} className="my-[5px] text-red-500 cursor-pointer inline" />{" "}
                   |{" "}
-                  <Link to="/dashboard/color/update-colors">
+                  <Link to={`/dashboard/color/update-colors/${colors._id}`}>
+                
                     <CiEdit className="my-[5px] text-yellow-500 cursor-pointer inline" />
                   </Link>
                 </td>

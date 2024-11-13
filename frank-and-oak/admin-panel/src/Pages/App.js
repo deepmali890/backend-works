@@ -2,9 +2,52 @@ import axios from "axios";
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import Swal from "sweetalert2";
 
 function App() {
   const nav = useNavigate();
+
+  const checkIfLoggedIn =()=>{
+    const cookieData = Cookies.get("wsb-117_Boys")
+ 
+    if(cookieData) return nav('/dashboard')
+   }
+ 
+   useEffect(()=>{checkIfLoggedIn()},[])
+
+  const handleLogin =(e)=>{
+    e.preventDefault();
+    axios.post(`${process.env.REACT_APP_API_HOST}/api/admin-panel/admin/login`, e.target)
+    .then((response)=>{
+      console.log(response.data)
+      // setProduct(response.data.data)
+      Cookies.set("wsb-117_Boys", JSON.stringify(response.data), { expires: 1 })
+
+      nav('/dashboard')
+    })
+    .catch((error)=>{
+      console.log(error)
+      if (error.status === 403){
+        Swal.fire({
+          icon: "error",
+          title: "Incorrect Email",
+          text: "The Email you entered is invalid. Please try again.",
+          footer: 'Forgot your Email?'
+        });
+      }
+      if (error.status === 401){
+        Swal.fire({
+          icon: "error",
+          title: "Incorrect Password",
+          text: "The password you entered is invalid. Please try again.",
+          footer: 'Forgot your password?'
+        });
+      }
+     
+      
+      })
+
+  }
 
  
 
@@ -17,7 +60,7 @@ function App() {
       <h3 className="text-[#303640c2] text-[14px] p-[0_10px] mb-[30px]">
         Sign-in to your account
       </h3>
-      <form>
+      <form method="post" onSubmit={handleLogin}>
         <div className="w-full  grid grid-cols-[20%_auto] my-[10px]">
           <label htmlFor="name" className="py-[8px] px-[10px] text-[#303640]">
             User Name
@@ -46,16 +89,16 @@ function App() {
           />
         </div>
         <div className="w-full my-[50px] flex justify-between items-center">
-        <Link to='/dashboard'>
+       
             <button
-              type="button"
+              type="submit"
               className="w-[130px] bg-purple-600 text-white h-[40px] rounded-[5px] text-[18px] font-[400]"
             >
           
               Login
             </button>
 
-            </Link>
+          
           <Link to="/reset-password">
             <span className="text-[#5351c9] mr-[50px]">Forgot password?</span>
           </Link>

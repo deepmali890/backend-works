@@ -3,7 +3,12 @@ const { createSize,
      readSize,
       updateSizeStatus,
        deletesize, 
-       deleteMultiSize
+       deleteMultiSize,
+       updateCategoryById,
+       updateSizeCategory,
+       deletedSizeCategory,
+       restoresizeCategory,
+    
     } = require('../../controllers/controllers');
 const multer = require('multer');
 
@@ -16,6 +21,10 @@ sizeRouter.get('/read-size', readSize)
 sizeRouter.put('/update-status/:_id', updateSizeStatus)
 sizeRouter.put('/delete-size/:_id',deletesize)
 sizeRouter.put('/multi-sizeDelete', deleteMultiSize)
+sizeRouter.get('/read-Cat/:_id', updateCategoryById)
+sizeRouter.put('/update-Cat/:_id',updateSizeCategory )
+sizeRouter.get('/deleted-seizeCategory', deletedSizeCategory)
+sizeRouter.put('/restore-category/:_id',restoresizeCategory)
 
 
 module.exports= {
