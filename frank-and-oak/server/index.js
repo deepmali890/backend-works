@@ -2,6 +2,7 @@ const express = require('express');
 const allRoutes = require('./src/app');
 require('dotenv').config();
 require('./src/db/config')
+const path = require('path');
 const cors = require('cors')
 
 const app = express();
@@ -10,6 +11,9 @@ const app = express();
 // middleware
 app.use(cors())
 app.use(express.json());
+app.use('/web-files', express.static(path.join(__dirname,'src','uploads','product-category')));
+app.use('/web-filess', express.static(path.join(__dirname,'src','uploads','admin')));
+
 
 
 

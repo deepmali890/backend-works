@@ -12,8 +12,9 @@ import { NavToggle } from "../Context/Context";
 import { SlUser } from "react-icons/sl";
 // import { RxGear } from "react-icons/rx";
 // import { MdOutlinePayment } from "react-icons/md";
-import { CiChat1, CiLock } from "react-icons/ci";
+import { CiChat1, CiLock, CiLogout } from "react-icons/ci";
 import Cookies from "js-cookie";
+import Swal from "sweetalert2";
 function Header() {
   const nav = useNavigate();
   let { navVisible, setNavVisibility } = useContext(NavToggle);
@@ -22,11 +23,27 @@ function Header() {
 
   const checkIfLoggedIn =()=>{
    const cookieData = Cookies.get("wsb-117_Boys")
+   console.log(cookieData.thumbnail)
 
    if(!cookieData) return nav('/')
   }
 
+
   useEffect(()=>{checkIfLoggedIn()},[])
+
+  const handleLogOut=()=>{
+    Cookies.remove("wsb-117_Boys")
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Your work has been saved",
+      showConfirmButton: false,
+      timer: 1500
+    });
+    nav('/')
+  }
+
+  
 
 
   return (
@@ -82,6 +99,14 @@ function Header() {
                 </span>
                 <span>
                   <button>Lock Account</button>
+                </span>
+              </li>
+              <li className="w-full box-border grid grid-cols-[30px_auto] gap-[10px] p-[5px] hover:bg-[#f8f8f9]" onClick={handleLogOut}>
+                <span className="p-[7px_1px]">
+                <CiLogout />{" "}
+                </span>
+                <span>
+                  <button >Log Out</button>
                 </span>
               </li>
           </ul>

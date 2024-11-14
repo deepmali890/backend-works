@@ -16,17 +16,22 @@ const ViewCategory = () => {
   const [checked,setChecked] = useState([])
   const [ifAllChecked,setIfAllChecked] = useState(false)
   const [open, setOpen] = useState(false);
+  const [filePath,setFilePath] = useState('')
 
   const fatchProductCategory = ()=>{
     axios.get(`${process.env.REACT_APP_API_HOST}/api/admin-panel/product-category/read-category`)
     .then((response)=>{
       console.log(response.data)
+      setFilePath(response.data.filepath);
+      console.log("reponse",response)
       setProduct(response.data.data)
     })
     .catch((error)=>{
       console.log(error)
       })
   }
+
+
 
   const fatchDeletedProductCategory = ()=>{
     axios.get(`${process.env.REACT_APP_API_HOST}/api/admin-panel/product-category/deleted-productCategory`)
@@ -348,7 +353,7 @@ const ViewCategory = () => {
                 <td>{category.parent_category.name}</td>
                 <td className="object-contain p-2">
                   <img
-                    src={category.thumbnail}
+                    src={filePath + category.thumbnail}
                     alt="product men's t-shirt"
                     width={80}
                     height={80}

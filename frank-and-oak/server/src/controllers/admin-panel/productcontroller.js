@@ -1,4 +1,5 @@
 const ProductCategory = require("../../models/productCategory");
+const path = require('path');
 
 const createProductCategory = async (req, res) => {
     try {
@@ -25,7 +26,9 @@ const createProductCategory = async (req, res) => {
 const readProductCategory = async (req, res) => {
     try {
         const data = await ProductCategory.find({ deleted_at: null }).populate('parent_category','name description')
-        res.status(200).json({ message: 'success', data })
+        const filepath= `${req.protocol}://${req.get('host')}/web-files/`
+        res.status(200).json({ message: 'success', data,filepath})
+   
 
     }
     catch (error) {
