@@ -22,8 +22,8 @@ function Header() {
   let [profileDropDown, setProfileDropDown] = useState(false);
 
   const checkIfLoggedIn =()=>{
-   const cookieData = Cookies.get("wsb-117_Boys")
-   console.log(cookieData.thumbnail)
+   const cookieData = JSON.parse(Cookies.get("wsb-117_Boys"))
+  
 
    if(!cookieData) return nav('/')
   }
