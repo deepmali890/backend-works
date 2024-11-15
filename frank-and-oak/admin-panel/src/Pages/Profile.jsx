@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, CSSProperties } from "react";
 import { RiFacebookFill } from "react-icons/ri";
 import { CiInstagram } from "react-icons/ci";
 import { FaYoutube } from "react-icons/fa";
@@ -9,23 +9,49 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { ClipLoader } from "react-spinners";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
+const override: CSSProperties = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "blue",
+  position:"fixed",
+  top:"50%",
+  left:"50%",
+  transform:"translate(-50%,-50%)",
+  zIndex:"999999"
+  
+};
 
 
 function Profile() {
+
+  
 
   const [show, setShow] = useState(false);
   const [adminData, setAdminData] = useState({})
   const [filePath, setFilPath] = useState('')
   const [previews, setPreviews] = useState({})
+  const [ifOtp, setIfOtp] = useState(false)
+  const [otptext,setOtpText]= useState('Genrate OTP')
+
+  let [loading, setLoading] = useState(false);
+  let [color, setColor] = useState("#ffffff");
   const nav = useNavigate()
+
+  
 
   const fetchAdminData = () => {
     const cookieData = JSON.parse(Cookies.get("wsb-117_Boys"))
-    // console.log(cookieData)
+    console.log(cookieData.email)
     setAdminData(cookieData.data)
+
     setFilPath(cookieData.filePath)
   }
-
+  
   useEffect(() => { fetchAdminData() }, [])
 
   const handlePreview = (e) => {
@@ -53,7 +79,7 @@ console.log("hello",e.target)
         Swal.fire({
           title: "Admin Updateted!",
           html: "Please Log In Again <b></b> milliseconds.",
-          timer: 2000,
+          timer: 800,
           timerProgressBar: true,
           didOpen: () => {
             Swal.showLoading();
@@ -86,9 +112,91 @@ console.log("hello",e.target)
 
   }
 
+  const notify=()=>{
+    setLoading(true)
+     axios.post(`${process.env.REACT_APP_API_HOST}/api/admin-panel/admin/genrate-otp`, {email:adminData.email})
+     .then((response)=>{
+      setLoading(false)
+      console.log(response)
+      toast("OTP has been sent to your email");
+      setIfOtp(true)
+      
+
+      let counter = 120;
+
+      setOtpText('Regenrate OTP in 120s')
+
+      const otpInterval = setInterval(() => {
+        counter --
+        setOtpText(`Regenrate OTP in ${counter}s`)
+
+        if(counter<1) {
+          clearInterval(otpInterval);
+          setOtpText('Genrate OTP')
+          setIfOtp(false)
+          }
+      }, 1000);
+     })
+     .catch((error)=>{
+      console.log(error)
+      })
+     }
+
+     const handleUpdateEmail=(e)=>{
+      e.preventDefault()
+      axios.put(`${process.env.REACT_APP_API_HOST}/api/admin-panel/admin/update-email`, {
+        email:adminData.email,
+        newEmail:e.target.newemail.value,
+        userOtp:e.target.userotp.value
+      })
+      .then((response)=>{
+        console.log(response)
+
+        
+        let timerInterval;
+        Swal.fire({
+          title: "Admin Updateted!",
+          html: "Please Log In Again <b></b> milliseconds.",
+          timer: 800,
+          timerProgressBar: true,
+          didOpen: () => {
+            Swal.showLoading();
+            const timer = Swal.getPopup().querySelector("b");
+            timerInterval = setInterval(() => {
+              timer.textContent = `${Swal.getTimerLeft()}`;
+            }, 100);
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          }
+        }).then((result) => {
+          /* Read more about handling dismissals below */
+          if (result.dismiss === Swal.DismissReason.timer) {
+            console.log("I was closed by the timer");
+            Cookies.remove("wsb-117_Boys")
+            nav('/')
+          }
+        });
+        
+      })
+      .catch((error)=>{
+        console.log(error)
+        })
+     }
+
 
   return (
     <div>
+<div className="w-[100vw] h-[100vh] bg-[rgba(0,0,0,0.3)] fixed top-0 left-0 z-[99999]" style={{display: (loading) ? '': 'none'}}>
+<ClipLoader
+        color={color}
+        loading={loading}
+        cssOverride={override}
+        size={150}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+      </div>
       <div className="w-[90%] mx-auto mt-[140px] mb-[20px] bg-white border rounded-[10px]">
         <span className="block text-[#303640] bg-[#f8f8f9] rounded-[10px_10px_0_0] h-[60px] p-[15px_15px] box-border font-bold text-[25px] border-b">
           Profile
@@ -261,17 +369,18 @@ console.log("hello",e.target)
           Update Email
         </span>
         <div className="w-full p-[30px]">
-          <form method="post">
+          <form method="post" onSubmit={handleUpdateEmail}>
             <div className="w-full mb-[10px]">
               <span className="block m-[15px_0]">Current Email</span>
               <input
                 type="email"
                 name="email"
-
+                value={adminData.email}
+                readOnly
                 className="w-full border h-[35px] rounded-[5px] p-2 input"
               />
             </div>
-            <div className="w-full mb-[10px]">
+            <div className={`w-full mb-[10px]  ${(ifOtp) ? 'block':'hidden'}`}>
               <span className="block m-[15px_0]">OTP</span>
               <input
                 type="text"
@@ -290,16 +399,17 @@ console.log("hello",e.target)
             </div>
             <button
               type="button"
-
-              className={`w-[150px] h-[40px] rounded-md text-white  my-[30px]`}>
-              {'otpBtnText'}
+              onClick={notify }
+              disabled={ifOtp}
+              className={`px-3 h-[40px]  ${(ifOtp) ? 'bg-gray-300  cursor-progress':'bg-[#5351c9]'}  rounded-md text-white  my-[30px]`}>
+              {otptext}
             </button>
-
+            <ToastContainer />
             <button
 
-              type="button"
+              type="submit"
 
-              className={`w-[150px] block h-[40px] rounded-md text-white bg-[#5351c9]  my-[30px]`}>
+              className={`w-[150px]  h-[40px] rounded-md text-white bg-[#5351c9]  ${(ifOtp) ? 'block':'hidden'}  my-[30px]`}>
               Update Email
             </button>
           </form>

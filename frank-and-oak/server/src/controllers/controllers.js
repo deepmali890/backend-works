@@ -52,7 +52,9 @@ const { createProductCategory,
     updateProductFeatur } = require("./admin-panel/productcontroller");
 const { registerAdmin,
     loginAdmin,
-    updateAdmin
+    updateAdmin,
+    generateOtp,
+    updateAdminEmail
 } = require("./admin-panel/adminControllers");
 
 
@@ -97,5 +99,7 @@ module.exports = {
     updateProductFeatur,
     registerAdmin,
     loginAdmin,
-    updateAdmin
+    updateAdmin,
+    generateOtp,
+    updateAdminEmail
 }
