@@ -9,6 +9,7 @@ function App() {
 
   const checkIfLoggedIn =()=>{
     const cookieData = Cookies.get("wsb-117_Boys")
+    console.log(cookieData)
  
     if(cookieData) return nav('/dashboard')
    }
@@ -48,6 +49,8 @@ function App() {
       })
 
   }
+
+  
 
  
 

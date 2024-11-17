@@ -17,7 +17,7 @@ const createColor = async (req,res)=>{
 
 const Viewcolor = async (req,res)=>{
     try{
-        const data = await Addcolor.find({ deleted_at: null })
+        const data = await Addcolor.find({ deleted_at: null, status:true })
         res.status(200).json({ message: 'Success', data })
     }
     catch(error){

@@ -16,7 +16,7 @@ const createSize= async (req,res)=>{
 
 const readSize = async (req,res)=>{
     try{
-        const data = await addSize.find({ deleted_at: null });
+        const data = await addSize.find({ deleted_at: null,status:true });
         res.status(200).json({ message: 'success', data})
     }
     catch(error){
@@ -24,8 +24,6 @@ const readSize = async (req,res)=>{
         res.status(500).json({ message: 'internal server error' })
         }
 };
-
-
 
 const updateSizeStatus = async (req, res) => {
     try {

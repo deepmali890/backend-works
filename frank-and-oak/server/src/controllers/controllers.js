@@ -49,12 +49,17 @@ const { createProductCategory,
     multiProductCategory,
     deletedProductCategory,
     restoreProductCategory,
-    updateProductFeatur } = require("./admin-panel/productcontroller");
+    updateProductFeatur, 
+    activeProductCategory} = require("./admin-panel/productcontroller");
 const { registerAdmin,
     loginAdmin,
     updateAdmin,
     generateOtp,
-    updateAdminEmail
+    updateAdminEmail,
+    forgetPassword,
+    resetPassword,
+    vaildUser,
+    finalPassword
 } = require("./admin-panel/adminControllers");
 
 
@@ -101,5 +106,9 @@ module.exports = {
     loginAdmin,
     updateAdmin,
     generateOtp,
-    updateAdminEmail
+    updateAdminEmail,
+    forgetPassword,
+    resetPassword,
+    finalPassword,
+    activeProductCategory
 }

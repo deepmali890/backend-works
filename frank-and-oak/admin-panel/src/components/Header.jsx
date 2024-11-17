@@ -103,7 +103,7 @@ function Header() {
               </li>
               <li className="w-full box-border grid grid-cols-[30px_auto] gap-[10px] p-[5px] hover:bg-[#f8f8f9]" onClick={handleLogOut}>
                 <span className="p-[7px_1px]">
-                <CiLogout />{" "}
+                <CiLogout className=" rotate-180"/>{" "}
                 </span>
                 <span>
                   <button >Log Out</button>

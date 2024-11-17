@@ -38,11 +38,13 @@ import ViewSlider from "./Pages/ViewSlider";
 import ForgotPassword from "./Pages/ForgotPassword";
 import ViewColor from "./Pages/ViewColor";
 import UpdateColor from "./Pages/UpdateColor";
+import NewPassword from "./Pages/NewPassword";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const routes = createBrowserRouter(
   createRoutesFromElements([
     <Route path="/" element={<App />} />,
     <Route path="/reset-password" element={<ForgotPassword />} />,
+    <Route path="/new-password/:id?/:token?" element={<NewPassword />} />,
     <Route path="/dashboard" element={<Layout />}>
       <Route path="" element={<Home />} />
       <Route path="/dashboard/color/add-colors" element={<Color />} />

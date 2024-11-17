@@ -6,7 +6,7 @@ const sizeSchema= mongoose.Schema({
         required:true,
         unique:true
     },
-    ordar:String,
+    ordar:Number,
     status:{
         type:Boolean,
         default:true

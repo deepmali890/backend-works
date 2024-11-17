@@ -25,10 +25,10 @@ const createProductCategory = async (req, res) => {
 
 const readProductCategory = async (req, res) => {
     try {
-        const data = await ProductCategory.find({ deleted_at: null }).populate('parent_category','name description')
-        const filepath= `${req.protocol}://${req.get('host')}/web-files/`
-        res.status(200).json({ message: 'success', data,filepath})
-   
+        const data = await ProductCategory.find({ deleted_at: null }).populate('parent_category', 'name description')
+        const filepath = `${req.protocol}://${req.get('host')}/web-files/`
+        res.status(200).json({ message: 'success', data, filepath })
+
 
     }
     catch (error) {
@@ -62,42 +62,42 @@ const deleteProductCategory = async (req, res) => {
         const data = await ProductCategory.updateOne(
             req.params,
             {
-                $set:{
+                $set: {
                     deleted_at: Date.now()
                 }
             }
         );
         res.status(200).json({ message: 'success', data })
-     }
+    }
     catch (error) {
         console.log(error);
-        res.status(500).json({ message: 'internal server error'})
-    
+        res.status(500).json({ message: 'internal server error' })
+
     }
 
 }
 
-const productcategoryById = async(req,res)=>{
-    try{
+const productcategoryById = async (req, res) => {
+    try {
         const response = await ProductCategory.findOne(req.params)
-        res.status(200).json({ message: 'success', data:response })
+        res.status(200).json({ message: 'success', data: response })
     }
     catch (error) {
         console.log(error);
-        res.status(500).json({ message: 'internal server error'})
-    
+        res.status(500).json({ message: 'internal server error' })
+
     }
 }
 
-const updateProductCategory = async (req,res)=>{
-    try{
+const updateProductCategory = async (req, res) => {
+    try {
         const response = await ProductCategory.updateOne(
             req.params,
             {
-                $set:req.body
+                $set: req.body
             }
         )
-        res.status(200).json({ message: 'success', data:response })
+        res.status(200).json({ message: 'success', data: response })
     }
     catch (error) {
         console.log(error);
@@ -107,17 +107,17 @@ const updateProductCategory = async (req,res)=>{
     }
 }
 
-const multiProductCategory= async (req,res)=>{
-    try{
+const multiProductCategory = async (req, res) => {
+    try {
         const response = await ProductCategory.updateMany(
             { _id: { $in: req.body.ids } },
             {
-                $set:{
-                    deleted_at:Date.now()
+                $set: {
+                    deleted_at: Date.now()
                 }
             }
         )
-        res.status(200).json({ message: 'success', data:response })
+        res.status(200).json({ message: 'success', data: response })
     }
     catch (error) {
         console.log(error);
@@ -126,10 +126,10 @@ const multiProductCategory= async (req,res)=>{
     }
 }
 
-const deletedProductCategory=async(req,res)=>{
-    try{
-        const response = await ProductCategory.find({deleted_at: {$ne: null}})
-        res.status(200).json({ message: 'success', data:response })
+const deletedProductCategory = async (req, res) => {
+    try {
+        const response = await ProductCategory.find({ deleted_at: { $ne: null } })
+        res.status(200).json({ message: 'success', data: response })
 
     }
     catch (error) {
@@ -139,17 +139,17 @@ const deletedProductCategory=async(req,res)=>{
     }
 }
 
-const restoreProductCategory = async (req,res)=>{
-    try{
+const restoreProductCategory = async (req, res) => {
+    try {
         const response = await ProductCategory.updateOne(
             req.params,
             {
-                $set:{
-                    deleted_at:null
+                $set: {
+                    deleted_at: null
                 }
             }
         )
-        res.status(200).json({ message: 'success', data:response })
+        res.status(200).json({ message: 'success', data: response })
     }
     catch (error) {
         console.log(error);
@@ -157,17 +157,31 @@ const restoreProductCategory = async (req,res)=>{
 
     }
 }
-const updateProductFeatur = async (req,res)=>{
-    try{
-        const data =  await ProductCategory.updateOne(
+const updateProductFeatur = async (req, res) => {
+    try {
+        const data = await ProductCategory.updateOne(
             req.params,
             {
-                $set:{
-                    featured:req.body.featured
+                $set: {
+                    featured: req.body.featured
                 }
             }
         );
         res.status(200).json({ message: 'success', data })
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'internal server error' })
+
+    }
+}
+
+const activeProductCategory = async (req, res) => {
+    try {
+
+        const data = await ProductCategory.find({parent_category:req.params.id, deleted_at:null, status:true})
+        res.status(200).json({ message: 'success', data })
+
     }
     catch (error) {
         console.log(error);
@@ -187,6 +201,7 @@ module.exports = {
     multiProductCategory,
     deletedProductCategory,
     restoreProductCategory,
-    updateProductFeatur
+    updateProductFeatur,
+    activeProductCategory
 
-}
+} 

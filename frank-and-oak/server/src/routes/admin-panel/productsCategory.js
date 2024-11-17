@@ -8,7 +8,8 @@ const { createProductCategory,
     multiProductCategory,
     deletedProductCategory,
     restoreProductCategory,
-    updateProductFeatur} = require('../../controllers/controllers');
+    updateProductFeatur,
+    activeProductCategory} = require('../../controllers/controllers');
 const fileHandle = require('../../middlewares/multer');
 
 const productCategoryRouter = express.Router();
@@ -23,5 +24,6 @@ productCategoryRouter.put('/multidelete-product_category', multiProductCategory)
 productCategoryRouter.get('/deleted-productCategory', deletedProductCategory)
 productCategoryRouter.put('/restore-product-category/:_id', restoreProductCategory)
 productCategoryRouter.put('/update-product-category-feature/:_id', updateProductFeatur)
+productCategoryRouter.get('/true-read-category-by-parent/:id', activeProductCategory)
 
 module.exports = productCategoryRouter;

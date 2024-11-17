@@ -2,7 +2,7 @@ const ParentCategory = require("../../models/parentCategory");
 
 const createParentCategory = async (req, res) => {
     try {
-        console.log(req.body)
+        // console.log(req.body)
 
         const data = new ParentCategory(req.body)
 
