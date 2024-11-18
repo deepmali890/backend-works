@@ -38,7 +38,7 @@ const ViewCategory = () => {
   const fatchDeletedCategory = () => {
     axios.get(`${process.env.REACT_APP_API_HOST}/api/admin-panel/parent-category/deleted-categories`)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         setdeletedCategories(response.data.data)
       })
       .catch((error) => {

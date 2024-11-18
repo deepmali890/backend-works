@@ -69,6 +69,19 @@ const deleteProduct = async (req, res) => {
     }
 }
 
+const productById = async (req, res) => {
+    try {
+
+        const response = await Product.findOne(req.params)
+        res.status(200).json({ message: "success", data: response })
+
+    }
+    catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "internal server error" })
+    }
+}
+
 const updateProduct = async (req, res) => {
     try {
         const response = await Product.updateOne(
@@ -84,10 +97,64 @@ const updateProduct = async (req, res) => {
     }
 }
 
+const deletedProduct = async (req, res) => {
+    try {
+        const response = await Product.find({ deleted_at: { $ne: null } })
+        res.status(200).json({ message: "success", data: response })
+    }
+    catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "internal server error" })
+
+    }
+}
+
+const restoreProduct = async (req, res) => {
+    try {
+        const response = await Product.updateOne(
+            req.params,
+            {
+                $set: {
+                    deleted_at: null
+                }
+            }
+        )
+        res.status(200).json({ message: "success", data: response })
+    }
+    catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "internal server error" })
+    }
+}
+
+const multiDeleteProduct = async (req, res) => {
+    try {
+        const data = await Product.updateMany(
+            { _id: { $in: req.body.ids } },
+            {
+                $set:{
+                    deleted_at: Date.now()
+                }
+            }
+        )
+        res.status(200).json({ message: "success", data })
+    }
+    catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "internal server error" })
+
+
+    }
+}
+
 module.exports = {
     createProduct,
     readproduct,
     updateStatus,
     deleteProduct,
-    updateProduct
+    updateProduct,
+    productById,
+    deletedProduct,
+    restoreProduct,
+    multiDeleteProduct
 }

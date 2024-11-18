@@ -90,14 +90,14 @@ const routes = createBrowserRouter(
         element={<ViewProduct />}
       />
       <Route
-        path="/dashboard/products/update-product"
+        path="/dashboard/products/update-product/:_id"
         element={<UpdateProduct />}
       />
       ,
       <Route path="/dashboard/stories/add-story" element={<StoryDetails />} />,
       <Route path="/dashboard/stories/view-story" element={<ViewStory />} />,
       <Route
-        path="/dashboard/stories/update-stories"
+        path="/dashboard/stories/update-stories/:_id"
         element={<UpdateStories />}
       />
       ,

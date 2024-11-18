@@ -75,8 +75,13 @@ const {
     readproduct,
     updateStatus,
     deleteProduct,
-    updateProduct
+    updateProduct,
+    productById,
+    restoreProduct,
+    deletedProduct,
+    multiDeleteProduct
 } = require("./admin-panel/product");
+const { createStory, readStory, deleteStory, updateStoryStatus, storyById, updateStory, deletedStory, restoreStory, multiDeleteStory } = require("./admin-panel/story");
 
 
 module.exports = {
@@ -131,5 +136,19 @@ module.exports = {
     readproduct,
     updateStatus,
     deleteProduct,
-    updateProduct
+    productById,
+    updateProduct,
+    deletedProduct,
+    restoreProduct,
+    multiDeleteProduct,
+    createStory,
+    readStory,
+    deleteStory,
+    updateStoryStatus,
+    storyById,
+    updateStory,
+    deletedStory,
+    restoreStory,
+    multiDeleteStory
+    
 }

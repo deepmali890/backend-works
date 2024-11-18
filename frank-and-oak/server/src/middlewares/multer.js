@@ -35,6 +35,10 @@ const fileHandle = (foldername)=> multer({storage:storage(foldername)}).fields([
     {
         name:'gallery',
         maxCount:10
+    },
+    {
+        name:'banner',
+        maxCount:1
     }
 ])
 
