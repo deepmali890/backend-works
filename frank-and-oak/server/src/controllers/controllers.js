@@ -82,6 +82,7 @@ const {
     multiDeleteProduct
 } = require("./admin-panel/product");
 const { createStory, readStory, deleteStory, updateStoryStatus, storyById, updateStory, deletedStory, restoreStory, multiDeleteStory } = require("./admin-panel/story");
+const { createSlider, readSlider } = require("./admin-panel/slider");
 
 
 module.exports = {
@@ -149,6 +150,8 @@ module.exports = {
     updateStory,
     deletedStory,
     restoreStory,
-    multiDeleteStory
+    multiDeleteStory,
+    createSlider,
+    readSlider
     
 }

@@ -15,6 +15,7 @@ app.use('/web-files', express.static(path.join(__dirname,'src','uploads','produc
 app.use('/product-files', express.static(path.join(__dirname,'src','uploads','products')));
 app.use('/web-filess', express.static(path.join(__dirname,'src','uploads','admin')));
 app.use('/story-files', express.static(path.join(__dirname,'src','uploads','story')));
+app.use('/slider-files', express.static(path.join(__dirname,'src','uploads','slider')));
 
 
 

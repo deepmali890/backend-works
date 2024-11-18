@@ -105,7 +105,7 @@ const routes = createBrowserRouter(
       <Route path="/dashboard/slider/add-slider" element={<AddSlider />} />,
       <Route path="/dashboard/slider/view-slider" element={<ViewSlider />} />,
       <Route
-        path="/dashboard/slider/update-slider"
+        path="/dashboard/slider/update-slider/:_id"
         element={<UpdateSlider />}
       />
       ,

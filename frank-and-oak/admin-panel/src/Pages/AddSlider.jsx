@@ -1,13 +1,27 @@
+import axios from "axios";
 import React from "react";
 
 const AddSlider = () => {
+
+  const handleSlider =(e)=>{
+    e.preventDefault()
+
+    axios.post(`${process.env.REACT_APP_API_HOST}/api/admin-panel/slider/create-slider`, e.target)
+    .then((res)=>{
+      console.log(res.data)
+      })
+      .catch((err)=>{
+        console.log(err)
+        })
+  }
+
   return (
     <div className="w-[90%] mx-auto my-[150px] bg-white rounded-[10px] border">
       <span className="block bg-[#f8f8f9] p-[8px_16px] text-[#303640] text-[20px] font-bold border-b rounded-[10px_10px_0_0]">
         Add Slider
       </span>
       <div className="w-[90%] mx-auto my-[20px]">
-        <form>
+        <form method="post" onSubmit={handleSlider}>
           <div className="w-full my-[10px]">
             <label htmlFor="slider_name" className="block text-[#303640]">
               Slider Name
@@ -15,7 +29,7 @@ const AddSlider = () => {
             <input
               type="text"
               id="slider_name"
-              name="slider_name"
+              name="name"
               placeholder="Slider Name"
               className="w-full rounded-[10px] p-2 my-[10px] border input"
             />
@@ -27,7 +41,7 @@ const AddSlider = () => {
             <input
               type="text"
               id="slider_heading"
-              name="slider_heading"
+              name="heading"
               placeholder="Heading"
               className="w-full rounded-[10px] p-2 my-[10px] border input"
             />
@@ -42,7 +56,7 @@ const AddSlider = () => {
             <input
               type="text"
               id="slider_sub_heading"
-              name="slider_sub_heading"
+              name="sub_heading"
               placeholder="Sub Heading"
               className="w-full rounded-[10px] p-2 my-[10px] border input"
             />
@@ -58,7 +72,7 @@ const AddSlider = () => {
             <input
               type="file"
               id="slider_img"
-              name="slider_img"
+              name="thumbnail"
               className="w-full rounded-[10px] my-[10px] border input category"
             />
           </div>
@@ -69,6 +83,8 @@ const AddSlider = () => {
               className="input mx-[10px] accent-[#5351c9] cursor-pointer"
               id="slider_status"
               name="slider_status"
+              value={true}
+              checked
             />
             <span>Display</span>
             <input
@@ -76,12 +92,13 @@ const AddSlider = () => {
               className="input mx-[10px] accent-[#5351c9] cursor-pointer"
               id="slider_status"
               name="slider_status"
-              checked
+              value={false}
+              
             />
             <span>Hide</span>
           </div>
           <div className="w-full my-[30px]">
-            <button className="w-[100px] rounded-[10px] bg-[#5351c9] text-white p-2">
+            <button type="submit" className="w-[100px] rounded-[10px] bg-[#5351c9] text-white p-2">
               Add Slider
             </button>
           </div>
