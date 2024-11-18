@@ -29,7 +29,7 @@ const {
     restorecolor
 } = require("./admin-panel/colorcontroolers");
 
-
+// size ///
 const { createSize,
     readSize,
     updateSizeStatus,
@@ -40,6 +40,9 @@ const { createSize,
     deletedSizeCategory,
     restoresizeCategory,
 } = require("./admin-panel/sizecontrollers");
+
+
+/// product category  ////
 const { createProductCategory,
     readProductCategory,
     updateProductCategoryStatus,
@@ -49,18 +52,31 @@ const { createProductCategory,
     multiProductCategory,
     deletedProductCategory,
     restoreProductCategory,
-    updateProductFeatur, 
-    activeProductCategory} = require("./admin-panel/productcontroller");
-const { registerAdmin,
+    updateProductFeatur,
+    activeProductCategory } = require("./admin-panel/productcontroller");
+
+
+//// admin ///
+
+const {
+    registerAdmin,
     loginAdmin,
     updateAdmin,
     generateOtp,
     updateAdminEmail,
     forgetPassword,
     resetPassword,
-    vaildUser,
     finalPassword
 } = require("./admin-panel/adminControllers");
+
+//// product ///
+const {
+    createProduct,
+    readproduct,
+    updateStatus,
+    deleteProduct,
+    updateProduct
+} = require("./admin-panel/product");
 
 
 module.exports = {
@@ -110,5 +126,10 @@ module.exports = {
     forgetPassword,
     resetPassword,
     finalPassword,
-    activeProductCategory
+    activeProductCategory,
+    createProduct,
+    readproduct,
+    updateStatus,
+    deleteProduct,
+    updateProduct
 }

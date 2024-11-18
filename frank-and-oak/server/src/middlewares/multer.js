@@ -27,6 +27,14 @@ const fileHandle = (foldername)=> multer({storage:storage(foldername)}).fields([
     {
         name:'footer_logo',
         maxCount:1
+    },
+    {
+        name:'animate_thumbnail',
+        maxCount:1
+    },
+    {
+        name:'gallery',
+        maxCount:10
     }
 ])
 

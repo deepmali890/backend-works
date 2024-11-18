@@ -23,15 +23,12 @@ const ViewCategory = () => {
     .then((response)=>{
       console.log(response.data)
       setFilePath(response.data.filepath);
-      console.log("reponse",response)
       setProduct(response.data.data)
     })
     .catch((error)=>{
       console.log(error)
       })
   }
-
-
 
   const fatchDeletedProductCategory = ()=>{
     axios.get(`${process.env.REACT_APP_API_HOST}/api/admin-panel/product-category/deleted-productCategory`)
@@ -181,6 +178,7 @@ const ViewCategory = () => {
       console.log(err)
       })
   }
+  
   const handleUpdateProductStatus=(e)=>{
     const feature = e.target.textContent !== "Show";
     axios.put(`${process.env.REACT_APP_API_HOST}/api/admin-panel/product-category/update-product-category-feature/${e.target.value}` , {feature})
@@ -205,6 +203,7 @@ const ViewCategory = () => {
       })
 
   }
+  
   return (
     <div className="w-[90%] mx-auto my-[150px] bg-white rounded-[10px] border">
 
