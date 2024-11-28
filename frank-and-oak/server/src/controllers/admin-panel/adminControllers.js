@@ -105,7 +105,7 @@ const generateOtp = async (req, res) => {
             secure: true,
             auth: {
                 user: process.env.APP_EMAIL,
-                pass: process.env.APP_PASSWORD
+                pass: process.env.APP_PASS
             }
         })
 
@@ -138,6 +138,7 @@ Frank and Oak Team`
 
     }
     catch (error) {
+        console.log(error)
         res.status(500).json({ massage: "internal server error" })
     }
 }
@@ -186,11 +187,11 @@ const forgetPassword = async (req, res) => {
 
 
         const transport = nodemailer.createTransport({
-            service: 'gmail',
+            service: 'gmail', 
             secure: true,
             auth: {
                 user: process.env.APP_EMAIL,
-                pass: process.env.APP_PASSWORD
+                pass: process.env.APP_PASS
             }
         })
         // const htmlContent=``
@@ -225,7 +226,7 @@ const forgetPassword = async (req, res) => {
       <a href="${otp}" style="background-color: black; color: #ffff; padding: 12px 20px; text-decoration: none;">Your OTP &nbsp;${otp}</a>
     </p>
     
-    ${process.env.CLIENT_URL}/${ifAdmin.id}/${setToken.verifytoken}
+   <a href=" ${process.env.CLIENT_URL}/${ifAdmin.id}/${setToken.verifytoken}"><button style="background-color: skyblue; color: #ffff; padding: 12px 20px; text-decoration: none;">Reset Your Password</button></a>
     
     <h3>Why you should reset now:</h3>
     <p>Resetting your password promptly helps keep your account secure. Once you’ve completed this, your account will be protected by a new password of your choice.</p>

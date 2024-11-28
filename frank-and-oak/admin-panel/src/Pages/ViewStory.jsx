@@ -140,7 +140,7 @@ const ViewStory = () => {
   },[story,checked])
 
   const handleMultidelete=()=>{
-
+    if(checked.length===0) return
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",

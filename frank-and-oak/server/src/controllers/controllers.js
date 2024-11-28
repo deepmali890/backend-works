@@ -82,7 +82,16 @@ const {
     multiDeleteProduct
 } = require("./admin-panel/product");
 const { createStory, readStory, deleteStory, updateStoryStatus, storyById, updateStory, deletedStory, restoreStory, multiDeleteStory } = require("./admin-panel/story");
-const { createSlider, readSlider } = require("./admin-panel/slider");
+const { createSlider, readSlider, updateSliderStatus, deleteSlider, sliderById, updateSlider, multiDelete, deletedSlider, restoreSlider } = require("./admin-panel/slider");
+
+
+
+
+// parent Category for website
+const {
+    activeParentCategoryWebsite
+} = require("./website/parentCategoryControllers");
+const { readProducByParentcategoryWeb } = require("./website/productController");
 
 
 module.exports = {
@@ -152,6 +161,15 @@ module.exports = {
     restoreStory,
     multiDeleteStory,
     createSlider,
-    readSlider
-    
+    readSlider,
+    updateSliderStatus,
+    deleteSlider,
+    sliderById,
+    updateSlider,
+    multiDelete,
+    deletedSlider,
+    restoreSlider,
+    activeParentCategoryWebsite,
+    readProducByParentcategoryWeb
+
 }

@@ -68,8 +68,8 @@ function Profile() {
 
   const handleupdateAdmin = (e) => {
     e.preventDefault();
-    console.log('sdwwd', adminData);
-    console.log("hello", e.target)
+    // console.log('sdwwd', adminData);
+    // console.log("hello", e.target)
     axios.put(`${process.env.REACT_APP_API_HOST}/api/admin-panel/admin/update-admin/${adminData._id}`, e.target)
 
       .then((response) => {
@@ -114,7 +114,7 @@ function Profile() {
 
   const notify = () => {
     setLoading(true)
-    axios.post(`${process.env.REACT_APP_API_HOST}/api/admin-panel/admin/genrate-otp`, { email: adminData.email })
+    axios.post(`${process.env.REACT_APP_API_HOST}/api/admin-panel/admin/genrate-otp`,{ email: adminData.email })
       .then((response) => {
         setLoading(false)
         console.log(response)

@@ -71,7 +71,7 @@ const UpdateSizes = () => {
             <input
               type="text"
               id="size"
-              name="updated_size"
+              name="name"
               placeholder="Size Name"
               value={size.name}
               onChange={(e)=>{setsize({...size, name:e.target.value})}}
@@ -100,7 +100,7 @@ const UpdateSizes = () => {
               type="radio"
               id="status"
               name="status"
-              value="0"
+              value={true}
               className="accent-[#5351c9] mx-[10px]"
             />
             <span>Display</span>
@@ -108,7 +108,7 @@ const UpdateSizes = () => {
               type="radio"
               id="status"
               name="status"
-              value="1"
+              value={false}
               className="accent-[#5351c9] mx-[10px]"
             />
             <span>Hide</span>

@@ -1,7 +1,11 @@
 import axios from "axios";
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const AddSlider = () => {
+
+  const nav = useNavigate()
 
   const handleSlider =(e)=>{
     e.preventDefault()
@@ -9,6 +13,26 @@ const AddSlider = () => {
     axios.post(`${process.env.REACT_APP_API_HOST}/api/admin-panel/slider/create-slider`, e.target)
     .then((res)=>{
       console.log(res.data)
+
+      let timerInterval;
+      Swal.fire({
+        title: "Category added",
+        html: "You're are redirecting to view page <b></b> milliseconds.",
+        timer: 700,
+        timerProgressBar: true,
+        didOpen: () => {
+          Swal.showLoading();
+          const timer = Swal.getPopup().querySelector("b");
+          timerInterval = setInterval(() => {
+            timer.textContent = `${Swal.getTimerLeft()}`;
+          }, 100);
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        }
+      }).then((result) => {
+        nav('/dashboard/slider/view-slider')
+      });
       })
       .catch((err)=>{
         console.log(err)

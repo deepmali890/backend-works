@@ -20,9 +20,14 @@ function Header() {
   let { navVisible, setNavVisibility } = useContext(NavToggle);
   let [width, setWidth] = useState(false);
   let [profileDropDown, setProfileDropDown] = useState(false);
+  const [filePath, setFilPath] = useState('')
+  const [adminData, setAdminData] = useState({})
 
   const checkIfLoggedIn =()=>{
-   const cookieData = JSON.parse(Cookies.get("wsb-117_Boys"))
+    const cookieData = Cookies.get("wsb-117_Boys")
+    console.log(cookieData)
+    setAdminData(cookieData.data)
+    setFilPath(cookieData.filePath)
   
 
    if(!cookieData) return nav('/')
