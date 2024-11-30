@@ -63,7 +63,7 @@ export default function Header() {
             {
               categories.map((category,index)=>(
                 <li key={index} onClick={()=>{handleCategoryData(category.name)}} onMouseOver={() => setMenuHover(index)} onMouseOut={() => setMenuHover(null)}  className='hover:bg-[#F9F9F9] cursor-pointer hover:underline underline-offset-4 px-3 duration-500 p-2'>{category.name}
-                <ThisJustInMegaMenu menuHover={menuHover} setMenuHover={setMenuHover} />
+                <ThisJustInMegaMenu subCategory={category.subCategory} menuHover={menuHover} setMenuHover={setMenuHover} />
                 </li>
               ))
             }
@@ -74,9 +74,9 @@ export default function Header() {
             <li onMouseOver={()=>setMenuHover(3)} onMouseOut={()=>setMenuHover(0)} className='hover:bg-[#F9F9F9] cursor-pointer hover:underline underline-offset-4 px-3 duration-500 p-2'>Men
             <MenMegaMenu menuHover={menuHover} setMenuHover={setMenuHover} />
             </li> */}
-            {/* <li onMouseOver={()=>setMenuHover(4)} onMouseOut={()=>setMenuHover(0)} className='hover:bg-[#F9F9F9] cursor-pointer hover:underline underline-offset-4 px-3 duration-500 p-2'>Our Story
+            <li onMouseOver={()=>setMenuHover(4)} onMouseOut={()=>setMenuHover(0)} className='hover:bg-[#F9F9F9] cursor-pointer hover:underline underline-offset-4 px-3 duration-500 p-2'>Our Story
             <OurStoryMegaMenu menuHover={menuHover} setMenuHover={setMenuHover} />
-            </li>  */}
+            </li> 
           </ul>
         </div>
         <ul className='flex gap-3 sm:gap-5'>

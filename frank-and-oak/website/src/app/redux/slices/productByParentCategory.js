@@ -7,7 +7,7 @@ export const fatchProductByParentCategory = createAsyncThunk(
     async (categoryName, thunkApi) => {
         try {
            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/products/products-by-parent-category/${categoryName}`)
-           console.log(response.data)
+        //    console.log(response.data)
            return response.data;
         }
         catch (error) {
@@ -18,7 +18,7 @@ export const fatchProductByParentCategory = createAsyncThunk(
     }
 )
 const initialState = {
-    value: {name:'dilip'},
+    value: {},
     loading: false,
     error: null
 }

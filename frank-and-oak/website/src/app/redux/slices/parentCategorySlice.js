@@ -36,6 +36,7 @@ export const parentCategorySlice = createSlice({
         .addCase(fatchParentCAtegory.pending,(state,action)=>{
             state.loading = true;
             state.error = null;
+            
         })
         .addCase(fatchParentCAtegory.fulfilled,(state,action)=>{
             state.value = action.payload;

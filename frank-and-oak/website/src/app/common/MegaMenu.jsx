@@ -1,37 +1,21 @@
 import React from "react";
 
-export function ThisJustInMegaMenu({menuHover,setMenuHover}) {
+export function ThisJustInMegaMenu({menuHover,setMenuHover,subCategory}) {
+  // console.log('subCategory =>',subCategory)
   return (
     <div onMouseOver={()=>setMenuHover(1)} onMouseOut={()=>setMenuHover(0)} className={`${menuHover==1 ? "opacity-100 visible" : "opacity-0 invisible"} duration-500 w-full bg-[#F9F9F9] absolute left-0 top-[100%]`}>
       <div className="grid grid-cols-[28%_auto] gap-24 p-10">
         <div className="flex justify-between">
           <ul className="space-y-2">
-            <li>
-              <h4 className="text-[15px] font-medium underline underline-offset-8 pb-3">
-                Women&apos;s New Arrivals
-              </h4>
-            </li>
-            <li className="text-[13px] font-semibold cursor-pointer hover:underline">
-              Shop All
-            </li>
-            <li className="text-[13px] font-semibold cursor-pointer hover:underline">
-            Tops
-            </li>
-            <li className="text-[13px] font-semibold cursor-pointer hover:underline">
-            Bottoms
-            </li>
-            <li className="text-[13px] font-semibold cursor-pointer hover:underline">
-            Jackets & Coats
-            </li>
-            <li className="text-[13px] font-semibold cursor-pointer hover:underline">
-            Blazers
-            </li>
-            <li className="text-[13px] font-semibold cursor-pointer hover:underline">
-            Dresses
-            </li>
-            <li className="text-[13px] font-semibold cursor-pointer hover:underline">
-            Accessories
-            </li>
+          {
+            subCategory.map((item, index) => (
+              <li key={index} className="text-[13px] font-semibold cursor-pointer hover:underline">
+              {item.name}
+              </li>
+            ))
+          }
+           
+          
           </ul>
           <ul className="space-y-2">
             <li>
