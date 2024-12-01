@@ -8,7 +8,7 @@ const readProducByParentcategoryWeb = async (req, res) => {
         .populate('sizes')
         .populate('colors')
 
-         const filepath = `${req.protocol}://${req.get('host')}/frank and oak files/products/`
+         const filepath = `${req.protocol}://${req.get('host')}/frank-and-oak-files/products/`
          res.status(200).json({ message: 'success', data, filepath })
     }
     catch(error){
@@ -23,7 +23,7 @@ const readProductWeb = async (req, res) => {
         .populate('parent_category')
         .populate('product_category')
         .populate('sizes')
-        .populate('colors')
+        .populate('colors') 
 
          const filepath = `${req.protocol}://${req.get('host')}/frank and oak files/products/`
          res.status(200).json({ message: 'success', data, filepath })

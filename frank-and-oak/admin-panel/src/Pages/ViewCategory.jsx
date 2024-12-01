@@ -215,6 +215,85 @@ const ViewCategory = () => {
       })
   }
 
+  const handleParentCategory = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "This action cannot be undone!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Use DELETE request instead of PUT for permanent deletion
+        axios.delete(`${process.env.REACT_APP_API_HOST}/api/admin-panel/parent-category/delete-parent-category/${id}`)
+          .then((response) => {
+            // Filter out the deleted category from the UI
+            setCategories((pre) => (
+              pre.filter((cats) => cats._id !== id)
+            ));
+            Swal.fire({
+              title: "Deleted!",
+              text: "The category has been permanently deleted.",
+              icon: "success"
+            });
+            fatchDeletedCategory()
+          })
+          .catch((error) => {
+            console.log(error);
+            Swal.fire({
+              title: "Error!",
+              text: "Failed to delete the category.",
+              icon: "error"
+            });
+          });
+      }
+    });
+  };
+
+  // const handleMultiAllDelete = () => {
+  //   if (checked.length === 0) return;
+  
+  //   Swal.fire({
+  //     title: "Are you sure?",
+  //     text: `You are about to permanently delete ${checked.length} categories! This action cannot be undone.`,
+  //     icon: "warning",
+  //     showCancelButton: true,
+  //     confirmButtonColor: "#3085d6",
+  //     cancelButtonColor: "#d33",
+  //     confirmButtonText: "Yes, delete them!"
+  //   }).then((result) => {
+  //     if (result.isConfirmed) {
+  //       axios.delete(`${process.env.REACT_APP_API_HOST}/api/admin-panel/parent-category/all-category-delete`, 
+  //          { ids: checked } // Pass IDs in the request body
+  //       )
+  //         .then((response) => {
+  //           setCategories((prev) => prev.filter((item) => !checked.includes(item._id)));
+  //           setIfAllChecked(false);
+  //           setChecked([]);
+  //           Swal.fire({
+  //             title: "Deleted!",
+  //             text: "The selected categories have been permanently deleted.",
+  //             icon: "success"
+  //           });
+  //           // Optionally refresh categories
+  //           // fetchCategory();
+  //         })
+  //         .catch((error) => {
+  //           console.error(error);
+  //           Swal.fire({
+  //             title: "Error!",
+  //             text: "Failed to delete the selected categories.",
+  //             icon: "error"
+  //           });
+  //         });
+  //     }
+  //   });
+  // };
+  
+  
+
   
 
 
@@ -292,7 +371,7 @@ const ViewCategory = () => {
                     )}
                   </td>
                   <td>
-                    <MdDelete   className="my-[5px] text-red-500 cursor-pointer inline" />{" "}
+                    <MdDelete onClick={() => { handleParentCategory(category._id) }}   className="my-[5px] text-red-500 cursor-pointer inline" />{" "}
                     |{" "}
                     <MdOutlineSettingsBackupRestore onClick={()=>{restoreCategory(category._id)}} className="my-[5px] text-yellow-500 cursor-pointer inline" />
 

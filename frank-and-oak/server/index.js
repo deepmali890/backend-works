@@ -17,7 +17,7 @@ app.use('/product-files', express.static(path.join(__dirname,'src','uploads','pr
 app.use('/web-filess', express.static(path.join(__dirname,'src','uploads','admin')));
 app.use('/story-files', express.static(path.join(__dirname,'src','uploads','story')));
 app.use('/slider-files', express.static(path.join(__dirname,'src','uploads','slider')));
-app.use('/frank and oak files/products/',express.static(path.join(__dirname,'src','uploads','products')))
+app.use('/frank-and-oak-files/products/',express.static('./src/uploads/products'))
 
 
 

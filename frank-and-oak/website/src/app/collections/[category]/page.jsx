@@ -34,11 +34,11 @@ export default function Category() {
   }, [categories])
 
   useEffect(() => {
-    if(products.data) setProductData(products.data);
+    if (products.data) setProductData(products.data);
 
     // setProductData(products.data)  
     setFilepath(products.filepath)
-    console.log('productData', products)
+    // console.log('productData', products)
   }, [products])
   // console.log('productData', products)
 
@@ -62,11 +62,11 @@ export default function Category() {
             <div className={`grid ${settingGrid ? "lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3" : "lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-5"} duration-300`}>
 
 
-            {
-                productData.map((product, index)=>(
-                  <Card key={index} product={product} filePath={filepath}/>
+              {
+                productData.map((product, index) => (
+                  <Card key={index} product={product} filePath={filepath} />
                 ))
-               }
+              }
 
 
             </div>

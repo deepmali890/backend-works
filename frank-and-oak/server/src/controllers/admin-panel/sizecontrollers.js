@@ -1,3 +1,5 @@
+const Product = require("../../models/product");
+const ProductCategory = require("../../models/productCategory");
 const addSize = require("../../models/size");
 
 const createSize= async (req,res)=>{
@@ -148,6 +150,20 @@ const restoresizeCategory=async(req,res)=>{
 
     }
 }
+const PermanentdeleteSize= async(req,res)=>{
+    try {
+        const data = await addSize.deleteOne(req.params);
+        await ProductCategory.deleteMany({ parent_category: req.params._id });
+        await Product.deleteMany({ parent_category: req.params._id })
+        res.status(200).json({ message: 'success', data })
+        
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'internal server error' })
+
+    }
+}
 
 
 module.exports= {
@@ -159,5 +175,6 @@ module.exports= {
     updateCategoryById,
     updateSizeCategory,
     deletedSizeCategory,
-    restoresizeCategory
+    restoresizeCategory,
+    PermanentdeleteSize
 }

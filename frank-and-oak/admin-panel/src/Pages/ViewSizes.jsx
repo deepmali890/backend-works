@@ -172,6 +172,8 @@ const ViewSizes = () => {
     });
   }
 
+
+
   const handleRestoreSize = (id) => {
     console.log("Restoring size with ID:", id); // Add this line
     axios.put(`${process.env.REACT_APP_API_HOST}/api/admin-panel/size/restore-category/${id}`)
@@ -184,6 +186,44 @@ const ViewSizes = () => {
         console.log(error);
       });
   };
+
+
+    const handleDeleteSize = (id) => {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "This action cannot be undone!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Use DELETE request instead of PUT for permanent deletion
+          axios.delete(`${process.env.REACT_APP_API_HOST}/api/admin-panel/size/delete-size/${id}`)
+            .then((response) => {
+              // Filter out the deleted category from the UI
+              setSize((pre) => (
+                pre.filter((cats) => cats._id !== id)
+              ));
+              Swal.fire({
+                title: "Deleted!",
+                text: "The category has been permanently deleted.",
+                icon: "success"
+              });
+              fatchDeletedSize()
+            })
+            .catch((error) => {
+              console.log(error);
+              Swal.fire({
+                title: "Error!",
+                text: "Failed to delete the category.",
+                icon: "error"
+              });
+            });
+        }
+      });
+    };
 
 
   return (
@@ -239,7 +279,7 @@ const ViewSizes = () => {
             <td>{item.ordar}</td>
             <td className="flex gap-[5px]">
 
-              <MdDelete onClick={()=>{handlesizedelete(item._id)}} className="my-[5px] text-red-500 cursor-pointer" /> |{" "}
+              <MdDelete onClick={()=>{handleDeleteSize(item._id)}} className="my-[5px] text-red-500 cursor-pointer" /> |{" "}
            
               <MdOutlineSettingsBackupRestore onClick={()=>{handleRestoreSize(item._id)}} className="my-[5px] text-yellow-500 cursor-pointer inline" />
            

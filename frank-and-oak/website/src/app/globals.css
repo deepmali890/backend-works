@@ -25,6 +25,14 @@
       -webkit-text-fill-color: transparent;
     }
   }
+  .showsize{
+    display: none;
+   
+   }
+   .showbtn:hover .showsize{
+     display: inline-flex
+   
+   }
 
 /* .slick-prev{
     left: 20% !important;

@@ -3,12 +3,12 @@ import React, { useState } from 'react'
 import { Card } from '../common/Card';
 
 export default function ThisJustIn() {
-    let [quickAdd,setQuickAdd]=useState(false)
-  return (
-    <section className='max-w-[1460px] mx-auto py-[50px]'>
-        <h3 className='md:text-[32px] text-[22px] font-medium'>This Just In</h3>
-        <div className='grid md:grid-cols-4 grid-cols-2 py-[50px] md:gap-5 gap-3'>
-            {/* <div className='cursor-pointer group'>
+    let [quickAdd, setQuickAdd] = useState(false)
+    return (
+        <section className='max-w-[1460px] mx-auto py-[50px]'>
+            <h3 className='md:text-[32px] text-[22px] font-medium'>This Just In</h3>
+            <div className='grid md:grid-cols-4 grid-cols-2 py-[50px] md:gap-5 gap-3'>
+                {/* <div className='cursor-pointer group'>
                 <div className=' w-full h-full'>
                     <div className='group relative'>
                 <span className='bg-black text-white absolute right-2 top-2 z-[9999] text-[10px] font-medium uppercase px-1 py-0.5'>few left</span>
@@ -100,27 +100,27 @@ export default function ThisJustIn() {
                 </div>
                 </div>
             </div> */}
+                {/* <Card/>
             <Card/>
             <Card/>
-            <Card/>
-            <Card/>
-        </div>
-    </section>
-  )
+            <Card/> */}
+            </div>
+        </section>
+    )
 }
 
 
 
 export function QuickAddButton() {
-  return (
-    <button className="w-full border border-green-600 py-1 ">
-      <ul className="w-full border flex justify-around border-red-700">
-        <li className="py-2 px-6 hover:bg-black hover:text-white">xl</li>
-        <li className="py-2 px-6  hover:bg-black hover:text-white">xl</li>
-        <li className="py-2 px-6  hover:bg-black hover:text-white">xl</li>
-        <li className="py-2 px-6  hover:bg-black hover:text-white">xl</li>
-        <li className="py-2 px-6  hover:bg-black hover:text-white">xl</li>
-      </ul>
-    </button>
-  );
+    return (
+        <button className="w-full border border-green-600 py-1 ">
+            <ul className="w-full border flex justify-around border-red-700">
+                <li className="py-2 px-6 hover:bg-black hover:text-white">xl</li>
+                <li className="py-2 px-6  hover:bg-black hover:text-white">xl</li>
+                <li className="py-2 px-6  hover:bg-black hover:text-white">xl</li>
+                <li className="py-2 px-6  hover:bg-black hover:text-white">xl</li>
+                <li className="py-2 px-6  hover:bg-black hover:text-white">xl</li>
+            </ul>
+        </button>
+    );
 }

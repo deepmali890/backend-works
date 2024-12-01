@@ -12,7 +12,9 @@ const { createParentCategory,
     updateParentCategory,
     deletedParentCategory,
     restoreParentCategory,
-    activeParentCategory
+    activeParentCategory,
+    PermanentdeleteParentCategory,
+    allDeleteParentCategory
 } = require("./admin-panel/parentCategory");
 
 
@@ -39,6 +41,7 @@ const { createSize,
     updateSizeCategory,
     deletedSizeCategory,
     restoresizeCategory,
+    PermanentdeleteSize,
 } = require("./admin-panel/sizecontrollers");
 
 
@@ -92,6 +95,7 @@ const {
     activeParentCategoryWebsite
 } = require("./website/parentCategoryControllers");
 const { readProducByParentcategoryWeb } = require("./website/productController");
+const { createCart } = require("./website/cartController");
 
 
 module.exports = {
@@ -170,6 +174,10 @@ module.exports = {
     deletedSlider,
     restoreSlider,
     activeParentCategoryWebsite,
-    readProducByParentcategoryWeb
+    readProducByParentcategoryWeb,
+    PermanentdeleteParentCategory,
+    // allDeleteParentCategory
+    PermanentdeleteSize,
+    createCart
 
 }
