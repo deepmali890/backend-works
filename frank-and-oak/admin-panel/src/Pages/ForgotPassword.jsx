@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { TiArrowBack } from "react-icons/ti";
+import { toast } from "react-toastify";
 
 function ForgotPassword() {
     let invalidOTPChars=["+","-","e","."];
@@ -23,6 +24,7 @@ function ForgotPassword() {
       .then((response)=>{
         console.log(response.data)
         // Cookies.set("wsb-117_Boyss", JSON.stringify(response.data), { expires: 1 })
+        toast("OTP has been sent to your email");
       })
       .catch((error)=>{
         console.log(error)

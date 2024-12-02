@@ -44,6 +44,7 @@ const routes = createBrowserRouter(
   createRoutesFromElements([
     <Route path="/" element={<App />} />,
     <Route path="/reset-password" element={<ForgotPassword />} />,
+    // <Route path="/password/:id?/:token?" element={<NewPassword />} />,
     <Route path="/new-password/:id?/:token?" element={<NewPassword />} />,
     <Route path="/dashboard" element={<Layout />}>
       <Route path="" element={<Home />} />

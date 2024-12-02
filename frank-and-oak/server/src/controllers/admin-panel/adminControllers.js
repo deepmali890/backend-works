@@ -33,13 +33,20 @@ const loginAdmin = async (req, res) => {
         const ifAdmin = await Admin.findOne({ email: req.body.email })
 
         if (!ifAdmin) return res.status(403).json({ message: 'invaild email' })
-        if (ifAdmin.password !== req.body.password) return res.status(401).json({ message: "invaild password" })
+        // if (ifAdmin.password !== req.body.password) return res.status(401).json({ message: "invaild password" })
 
-        const { password, ...data } = ifAdmin._doc;
+        bcrypt.compare(req.body.password, ifAdmin.password, function (err, result) {
+            if (err) return res.status(401).json({ message: "invaild password" })
 
-        const filePath = `${req.protocol}://${req.get('host')}/web-filess/`
+            const { password, ...data } = ifAdmin._doc;
 
-        res.status(200).json({ message: 'success', data, filePath })
+            const filePath = `${req.protocol}://${req.get('host')}/web-filess/`
+
+            res.status(200).json({ message: 'success', data, filePath })
+            // result == true
+        });
+
+
 
     }
     catch (error) {
@@ -66,6 +73,8 @@ const updateAdmin = async (req, res) => {
             fs.unlinkSync(`./src/uploads/admin/${ifAdmin.thumbnail}`)
         }
 
+        console.log('update admin')
+
         const data = req.body
         if (req.files) {
             if (req.files.logo) data.logo = req.files.logo[0].filename;
@@ -74,13 +83,15 @@ const updateAdmin = async (req, res) => {
             if (req.files.thumbnail) data.thumbnail = req.files.thumbnail[0].filename;
         }
 
-        const response = await Admin.updateOne(
-            req.params,
-            {
-                $set: data
-            }
-        )
-        res.status(200).json({ message: 'success', data: response })
+        console.log(data)
+
+        // const response = await Admin.updateOne(
+        //     req.params,
+        //     {
+        //         $set: data
+        //     }
+        // )
+        res.status(200).json({ message: 'success', data: 'response' })
     }
     catch (error) {
         console.log(error)
@@ -187,7 +198,7 @@ const forgetPassword = async (req, res) => {
 
 
         const transport = nodemailer.createTransport({
-            service: 'gmail', 
+            service: 'gmail',
             secure: true,
             auth: {
                 user: process.env.APP_EMAIL,
@@ -289,23 +300,23 @@ const resetPassword = async (req, res) => {
 const finalPassword = async (req, res) => {
     const { id, token } = req.params;
 
-    const { password,confirm_password } = req.body;
+    const { password, confirm_password } = req.body;
 
     try {
 
         const validUser = await Admin.findOne({ _id: id, verifytoken: token })
         const verifyToken = jwt.verify(token, process.env.JWT_SECRET_KEY)
 
-        if(!password === confirm_password) return res.status(401).json({messsage:"please match password"})
+        if (!password === confirm_password) return res.status(401).json({ messsage: "please match password" })
 
         if (validUser && verifyToken) {
 
-            const newpassword= await bcrypt.hash(password,12)
+            const newpassword = await bcrypt.hash(password, 12)
 
-            const setnewuserpassword= await Admin.findByIdAndUpdate({_id:id},{password:newpassword})
+            const setnewuserpassword = await Admin.findByIdAndUpdate({ _id: id }, { password: newpassword })
 
             setnewuserpassword.save();
-            res.status(200).json({ message:"success",setnewuserpassword})
+            res.status(200).json({ message: "success", setnewuserpassword })
 
         } else {
             res.status(401).json({ status: 401, message: "user not exist" })

@@ -4,9 +4,9 @@ const multer = require('multer');
 const fileHandle = require("../../middlewares/multer");
 
 const adminRouter = express.Router();
-adminRouter.use(multer().none())
+// adminRouter.use(multer().none())
 
-adminRouter.post('/login',loginAdmin)
+adminRouter.post('/login',multer().none(),loginAdmin)
 adminRouter.put('/update-admin/:_id',fileHandle('admin'),updateAdmin )
 adminRouter.post('/genrate-otp',generateOtp)
 adminRouter.put('/update-email', updateAdminEmail)
