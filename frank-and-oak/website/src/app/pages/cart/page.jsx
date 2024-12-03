@@ -16,7 +16,7 @@ export default function Cart({cartStatus,setCartStatus}) {
       <div className='lg:w-[38%] w-full  fixed top-0 right-0 z-[999999] bg-white'>
         <div onClick={()=>setCartStatus(!cartStatus)} className='py-3 px-6 flex items-center gap-2 bg-[#F9F9F9] cursor-pointer'>
           <BsArrowLeft className='font-bold' />
-          <div className='text-sm font-semibold'>Contine Shopping</div>
+          <div className='text-sm font-semibold'>hello ws Shopping</div>
         </div>
         <div className=' bg-black text-white text-[12px] text-center font-bold py-1.5'>Free shipping on orders $99+ and free returns</div>
         <div className='md:px-8 px-4 lg:h-screen h-full overflow-y-scroll'>
