@@ -8,7 +8,7 @@ export default function ThisJustIn() {
         <section className='max-w-[1460px] mx-auto py-[50px]'>
             <h3 className='md:text-[32px] text-[22px] font-medium'>This Just In</h3>
             <div className='grid md:grid-cols-4 grid-cols-2 py-[50px] md:gap-5 gap-3'>
-                {/* <div className='cursor-pointer group'>
+                <div className='cursor-pointer group'>
                 <div className=' w-full h-full'>
                     <div className='group relative'>
                 <span className='bg-black text-white absolute right-2 top-2 z-[9999] text-[10px] font-medium uppercase px-1 py-0.5'>few left</span>
@@ -99,7 +99,7 @@ export default function ThisJustIn() {
                 </div>
                 </div>
                 </div>
-            </div> */}
+            </div>
                 {/* <Card/>
             <Card/>
             <Card/>
