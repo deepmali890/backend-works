@@ -25,7 +25,7 @@ const readProductWeb = async (req, res) => {
         .populate('sizes')
         .populate('colors') 
 
-         const filepath = `${req.protocol}://${req.get('host')}/frank and oak files/products/`
+         const filepath = `${req.protocol}://${req.get('host')}/frank-and-oak-files/allproducts/`
          res.status(200).json({ message: 'success', data, filepath })
     }
     catch(error){
@@ -35,5 +35,6 @@ const readProductWeb = async (req, res) => {
 }
 
 module.exports={
-    readProducByParentcategoryWeb
+    readProducByParentcategoryWeb,
+    readProductWeb
 }

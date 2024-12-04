@@ -12,7 +12,7 @@ function ForgotPassword() {
     let invalidOTPChars=["+","-","e","."];
 
     const [ifotp,setIfOtp] = useState(false)
-    const [otpText,setOtpText] = useState('Genrate OTP')
+    const [otpText,setOtpText] = useState('Reset Password')
     const [adminData, setAdminData] = useState({})
 
   

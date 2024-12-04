@@ -234,7 +234,6 @@ const forgetPassword = async (req, res) => {
     
     <p><strong>Please act quickly!</strong> The link will only be active for the next <strong>120 seconds</strong>:</p>
     <p style="text-align: center;">
-      <a href="${otp}" style="background-color: black; color: #ffff; padding: 12px 20px; text-decoration: none;">Your OTP &nbsp;${otp}</a>
     </p>
     
    <a href=" ${process.env.CLIENT_URL}/${ifAdmin.id}/${setToken.verifytoken}"><button style="background-color: skyblue; color: #ffff; padding: 12px 20px; text-decoration: none;">Reset Your Password</button></a>

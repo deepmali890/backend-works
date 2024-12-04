@@ -94,7 +94,7 @@ const { createSlider, readSlider, updateSliderStatus, deleteSlider, sliderById, 
 const {
     activeParentCategoryWebsite
 } = require("./website/parentCategoryControllers");
-const { readProducByParentcategoryWeb } = require("./website/productController");
+const { readProducByParentcategoryWeb, readProductWeb } = require("./website/productController");
 const { createCart } = require("./website/cartController");
 
 
@@ -178,6 +178,7 @@ module.exports = {
     PermanentdeleteParentCategory,
     // allDeleteParentCategory
     PermanentdeleteSize,
-    createCart
+    createCart,
+    readProductWeb
 
 }

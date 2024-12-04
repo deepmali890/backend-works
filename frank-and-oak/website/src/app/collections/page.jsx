@@ -1,14 +1,37 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaRegSquareFull } from 'react-icons/fa6';
 import { SiWindows11 } from "react-icons/si";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { QuickAddButton } from '../HomeComponents/ThisJustIn';
 import Header from '../common/Header';
 import { Card } from '../common/Card';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProduct } from '../redux/slices/productslice';
 
 export default function Category() {
   let [settingGrid, setSettingGrid] = useState(false)
+  const dispatch = useDispatch()
+  const [productData,setproduct]=useState([])
+  const[filepath,setFilePath] =useState('')
+
+  
+
+  const allproduct= useSelector((state)=>state.product.value)
+
+  useEffect(()=>{
+    dispatch(fetchProduct())
+  },[dispatch])
+
+  useEffect(() => {
+    if (allproduct.data) setproduct(allproduct.data);
+
+    // setProductData(products.data)  
+    setFilePath(allproduct.filepath)
+    console.log('productData', productData)
+  }, [allproduct])
+
+  
   return (
     <>
       <Header />
@@ -26,7 +49,13 @@ export default function Category() {
           <div className='py-6'>
             <div className='text-[20px] pb-5 font-medium'>New In</div>
             <div className={`grid ${settingGrid ? "lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3" : "lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-5"} duration-300`}>
+            {
+                productData.map((product, index) => (
+                  <Card key={index} product={product} filePath={filepath} />
+                ))
+              }
               {/* <Card/>
+              
                 <Card/>
                 <Card/>
                 <Card/>

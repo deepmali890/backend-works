@@ -55,7 +55,7 @@ export default function Header() {
         <div className='  flex gap-2 sm:gap-4 items-center  basis-[70%] md:basis-[20%] lg:basis-[15%]'>
           <RxHamburgerMenu onClick={() => setSidebarStatus(true)} className='sm:hidden block w-[22px] h-7' />
           <MobileSideBar sidebarStatus={sidebarStatus} />
-          <span className='font-bold md:text-[18px] text-[15px]'>Frank And Oak</span>
+         <Link href={'/'}> <span className='font-bold md:text-[18px] text-[15px]'>Frank And Oak</span></Link>
         </div>
         <nav className=' basis-[30%] lg:basis-[84%] md:basis-[75%]  flex items-center justify-end lg:justify-between'>
           <div className='lg:block  hidden'>
